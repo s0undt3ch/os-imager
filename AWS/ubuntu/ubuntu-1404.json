@@ -43,20 +43,6 @@
       "script": "AWS/.scripts/clone-salt-jenkins.sh",
       "environment_vars": [
         "SALT_BRANCH={{ user `salt_branch` }}",
-        "PY_VERSION=3"
-      ]
-    },
-    {
-      "type": "salt-masterless",
-      "local_state_tree": ".tmp/states",
-      "local_pillar_roots": ".tmp/pillar",
-      "custom_state": "git.minimal"
-    },
-    {
-      "type": "shell-local",
-      "script": "AWS/.scripts/clone-salt-jenkins.sh",
-      "environment_vars": [
-        "SALT_BRANCH={{ user `salt_branch` }}",
         "PY_VERSION=2"
       ]
     },

@@ -11,7 +11,8 @@
           "root-device-type": "ebs"
         },
         "owners": [
-          "801119661308"
+          "883373499178",
+          "540082622920"
         ],
         "most_recent": true
       },
@@ -26,7 +27,7 @@
       "winrm_username": "Administrator",
       "winrm_use_ssl": true,
       "winrm_insecure": true,
-      "ami_name": "saltstack/base/windows/2016/{{timestamp}}",
+      "ami_name": "{{ user `ami_name` }}/{{ user `salt_branch`}}/{{timestamp}}",
       "run_tags": {
         "Name": "Packer Windows 2016 Builder"
       }
@@ -39,6 +40,20 @@
         "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/InitializeInstance.ps1 -Schedule",
         "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/SysprepInstance.ps1 -NoShutdown"
       ]
+    },
+    {
+      "type": "shell-local",
+      "script": "AWS/.scripts/clone-salt-jenkins.sh",
+      "environment_vars": [
+        "SALT_BRANCH={{ user `salt_branch` }}",
+        "PY_VERSION=3"
+      ]
+    },
+    {
+      "type": "salt-masterless",
+      "local_state_tree": ".tmp/states",
+      "local_pillar_roots": ".tmp/pillar",
+      "custom_state": "git.minimal"
     }
   ]
 }
