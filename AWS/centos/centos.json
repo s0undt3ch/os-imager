@@ -9,16 +9,13 @@
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
-          "name": "{{ user `ami_name_prefix` }}/{{ user `source_build_type` }}/{{ user `ami_name_suffix` }}*",
+          "name": "{{ user `ami_filter` }}",
           "root-device-type": "ebs",
-          "state": "available",
-          "description": "PROMOTED *"
+          "product-code": "{{ user `ami_productcode` }}",
+          "product-code.type": "marketplace"
         },
         "owners": [
-          "883373499178",
-          "540082622920",
-          "989543020150",
-          "178480506716"
+          "{{ user `ami_owner` }}"
         ],
         "most_recent": true
       },
@@ -65,8 +62,16 @@
   ],
   "provisioners": [
     {
+      "type": "shell",
+      "inline": [
+        "sudo yum update -y",
+        "sudo yum install git vim -y",
+        "sudo rm -rf /tmp/* && sudo yum clean all"
+      ]
+    },
+    {
       "type": "shell-local",
-      "script": "files/prep-linux.sh",
+      "script": "AWS/files/prep-linux.sh",
       "environment_vars": [
         "SALT_BRANCH={{ user `salt_branch` }}",
         "SALT_PR={{ user `salt_pr` }}",
@@ -113,7 +118,7 @@
     },
     {
       "type": "shell-local",
-      "script": "files/prep-linux.sh",
+      "script": "AWS/files/prep-linux.sh",
       "environment_vars": [
         "SALT_BRANCH={{ user `salt_branch` }}",
         "SALT_PR={{ user `salt_pr` }}",
@@ -140,7 +145,7 @@
     },
     {
       "type": "shell",
-      "script": "files/cleanup-linux.sh"
+      "script": "AWS/files/cleanup-linux.sh"
     }
   ],
   "post-processors": [

@@ -7,6 +7,8 @@
   "bootstrap_version": "2018.3.4",
   "salt_branch": "master",
   "state_name": "git.minimal",
+  "ami_filter": "Windows_Server-2016-English-Full-Base-20*",
+  "ami_owner": "801119661308",
   "ami_name_prefix": "saltstack",
   "ami_name_suffix": "windows/2016",
   "instance_type": "c5.xlarge",

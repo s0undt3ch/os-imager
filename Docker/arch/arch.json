@@ -25,7 +25,10 @@
     {
       "type": "shell",
       "inline": [
-        "pacman -Sy --needed --noconfirm sudo awk openssh",
+        "pacman -Sy --noconfirm archlinux-keyring",
+        "pacman-db-upgrade",
+        "pacman -Syyu --noconfirm",
+        "pacman -Sy --needed --noconfirm git vim sudo awk openssh",
         "rm -rf /tmp/* /var/cache/pacman/pkg/* && pacman -Scc --noconfirm"
       ]
     },
@@ -113,7 +116,7 @@
       {
         "type": "docker-tag",
         "repository": "{{ user `docker_repository` }}/{{ user `docker_image_prefix` }}-{{ user `os_name` | lower }}-{{ user `os_version` }}",
-        "tag": "{{ user `salt_branch` | lower }}"
+        "tag": "{{ user `build_type` | lower }}"
       },
       "docker-push"
     ]

@@ -25,7 +25,9 @@
     {
       "type": "shell",
       "inline": [
-        "zypper --non-interactive install --auto-agree-with-licenses sudo curl openssh",
+        "zypper --non-interactive --gpg-auto-import-keys refresh",
+        "zypper --non-interactive --gpg-auto-import-keys update",
+        "zypper --non-interactive install --auto-agree-with-licenses dbus-1 systemd git vim sudo curl openssh",
         "rm -rf /tmp/* && zypper --non-interactive clean -a"
       ]
     },
@@ -113,7 +115,7 @@
       {
         "type": "docker-tag",
         "repository": "{{ user `docker_repository` }}/{{ user `docker_image_prefix` }}-{{ user `os_name` | lower }}-{{ user `os_version` }}",
-        "tag": "{{ user `salt_branch` | lower }}"
+        "tag": "{{ user `build_type` | lower }}"
       },
       "docker-push"
     ]

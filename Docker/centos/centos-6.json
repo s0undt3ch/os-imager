@@ -26,7 +26,7 @@
       "type": "shell",
       "inline": [
         "yum update -y",
-        "yum install -y sudo upstart openssh-server",
+        "yum install -y upstart git vim sudo upstart openssh-server",
         "rm -rf /tmp/* && yum clean all"
       ]
     },
@@ -88,7 +88,7 @@
       {
         "type": "docker-tag",
         "repository": "{{ user `docker_repository` }}/{{ user `docker_image_prefix` }}-{{ user `os_name` | lower }}-{{ user `os_version` }}",
-        "tag": "{{ user `salt_branch` | lower }}"
+        "tag": "{{ user `build_type` | lower }}"
       },
       "docker-push"
     ]

@@ -1,5 +1,5 @@
 {
-  "_comment": "Build with `packer build fedora.json`",
+  "_comment": "Build with `packer build centos.json`",
   "builders": [
     {
       "type": "docker",
@@ -26,7 +26,7 @@
       "type": "shell",
       "inline": [
         "yum update -y",
-        "yum install -y git vim sudo systemd openssh-server",
+        "yum install -y upstart git vim sudo openssh-server dbus",
         "rm -rf /tmp/* && yum clean all"
       ]
     },
@@ -73,7 +73,7 @@
       "inline": [
         "sudo rm -rf /srv/pillar",
         "sudo mv /tmp/pillar /srv",
-        "sudo salt-call -ldebug --local state.sls {{ user `state_name` }} --retcode-passthrough",
+        "sudo salt-call --local state.sls {{ user `state_name` }} --retcode-passthrough",
         "sudo rm -rf /srv/pillar/* /tmp/pillar"
       ]
     },
@@ -99,7 +99,7 @@
       "inline": [
         "sudo rm -rf /srv/pillar",
         "sudo mv /tmp/pillar /srv",
-        "sudo salt-call -ldebug --local state.sls {{ user `state_name` }} --retcode-passthrough",
+        "sudo salt-call --local state.sls {{ user `state_name` }} --retcode-passthrough",
         "sudo rm -rf /srv/pillar /srv/salt /tmp/salt /tmp/pillar"
       ],
       "pause_after": "5s"

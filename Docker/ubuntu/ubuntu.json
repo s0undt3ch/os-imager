@@ -25,20 +25,10 @@
     {
       "type": "shell",
       "inline": [
-        "rm -rf /etc/apt/apt.conf.d/50unattended-upgrades",
-        "apt-get update",
-        "apt-get install -y sudo systemd openssh-server ",
+        "rm -rf /etc/apt/apt.conf.d/20auto-upgrades",
+        "apt-get update -y && apt-get upgrade -y",
+        "apt-get install -y systemd git vim sudo openssh-server",
         "rm -rf /tmp/* /var/lib/apt/lists/* && apt-get clean"
-      ]
-    },
-    {
-      "type": "shell-local",
-      "script": "files/prep-linux.sh",
-      "environment_vars": [
-        "SALT_BRANCH={{ user `salt_branch` }}",
-        "SALT_PR={{ user `salt_pr` }}",
-        "DISTRO_SLUG={{ user `distro_slug` }}",
-        "PY_VERSION=3"
       ]
     },
     {
@@ -115,7 +105,7 @@
       {
         "type": "docker-tag",
         "repository": "{{ user `docker_repository` }}/{{ user `docker_image_prefix` }}-{{ user `os_name` | lower }}-{{ user `os_version` }}",
-        "tag": "{{ user `salt_branch` | lower }}"
+        "tag": "{{ user `build_type` | lower }}"
       },
       "docker-push"
     ]
